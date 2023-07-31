@@ -1,4 +1,37 @@
-const {Schema, model} = require('mongoose');
+const {Schema, model, Types} = require('mongoose');
+
+const formatDate = (date) => {
+    return date.toDateString();
+}
+
+
+const reactionSchema = new Schema (
+    {
+        reactionId: {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId(),
+        },
+        reactionBody: {
+            type: String,
+            required: true,
+            maxlength: 280,
+        },
+        username: {
+            type: String,
+            required: true,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now(),
+            get: (date) => formatDate(date),
+        }
+    },
+    {
+        toJSON: {
+            getters: true,
+        },
+    }
+);
 
 const thoughtSchema = new Schema(
     {
@@ -12,7 +45,7 @@ const thoughtSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now(),
-            get: (date) => timeSince(date),
+            get: (date) => formatDate(date),
         },
         username: {
             type: String,
@@ -26,11 +59,12 @@ const thoughtSchema = new Schema(
             virtuals: true,
             getters: true,
         },
+        id: false,
     }
 
 );
 
-thoughtSchema.virtuals('reactionCount').get(function() {
+thoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 });
 
