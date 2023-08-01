@@ -15,8 +15,8 @@ async function getSingleUser(req, res) {
   try {
     const user = await User.findOne({ _id: req.params.Id })
     // .select('__v') 
-    // .populate('thoughts')
-    // .populate('friends');
+    .populate('thoughts')
+    .populate('friends');
     if (user) {
       res.json(user);
     } else {
