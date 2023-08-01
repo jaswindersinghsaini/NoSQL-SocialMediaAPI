@@ -14,9 +14,9 @@ async function getUsers(req, res) {
 async function getSingleUser(req, res) {
   try {
     const user = await User.findOne({ _id: req.params.Id })
-    .select('__v') 
-    .populate('thoughts')
-    .populate('friends');
+    // .select('__v') 
+    // .populate('thoughts')
+    // .populate('friends');
     if (user) {
       res.json(user);
     } else {
@@ -79,7 +79,7 @@ async function addFriend(req, res) {
   try {
     const user = await User.findOneAndUpdate(
       { _id: req.params.Id },
-      { $addToSet: { friends: req.body } },
+      { $addToSet: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     );
     if (!user) {
@@ -95,9 +95,9 @@ async function addFriend(req, res) {
 // Remove Friend
 async function removeFriend(req, res) {
   try {
-    const user = await User.findOneAndRemove(
+    const user = await User.findOneAndUpdate(
       { _id: req.params.Id },
-      { $pull: { friends: { friendsId: req.params.friendId } } },
+      { $pull: { friends: req.params.friendId } },
       { runValidators: true, new: true }
     );
     if (!user) {

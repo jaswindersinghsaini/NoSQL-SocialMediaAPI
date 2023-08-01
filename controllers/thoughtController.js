@@ -115,7 +115,7 @@ async function createReaction(req, res) {
     try{
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.Id },
-        { $pull: {reactionId: req.params.Id}},
+        { $pull: {reactions: { reactionId: req.params.reactionId}}},
         {runValidators: true, new: true }
         
       )
