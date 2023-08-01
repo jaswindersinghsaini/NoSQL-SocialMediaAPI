@@ -10,7 +10,7 @@
 
 ### Description
 This is a social media API where users can share their thoughts, react to friends’ thoughts, and create a friend list.
-User can see others thoughts and reactions and have their own custom friends list.
+User can see others thoughts and reactions and have their own friends list.
 
 
 ### Installation
